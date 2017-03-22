@@ -1,2 +1,4 @@
 # GENIE_UnitTests
-initial setp of unit tests for GENIE nu+A event generator
+
+This is the initial collection of unit tests for the GENIE nu(bar)+A event generator.
+
