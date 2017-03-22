@@ -1,7 +1,7 @@
 #
 # GENIE Makefile 
 #
-# Author: Marco Roda, Liverpool 
+# Author: Julia Yarba, Fermilab 
 #
 
 SHELL = /bin/sh
