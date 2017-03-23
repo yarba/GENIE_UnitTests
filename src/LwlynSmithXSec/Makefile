@@ -1,7 +1,7 @@
 #
 # GENIE Makefile 
 #
-# Author: Julia Yarba, Fermilab 
+# Author: Marco Roda, Liverpool 
 #
 
 SHELL = /bin/sh
@@ -11,16 +11,18 @@ MAKEFILE = Makefile
 # Include machine specific flags and locations (inc. files & libs)
 include $(GENIE)/src/make/Make.include
 
+INCLUDES += -I$(BOOST_INC)
+
 # Add extra libraries needed for these executables
 GENIE_GENERATOR_LIBS   = $(shell $(GENIE)/src/scripts/setup/genie-config --libs)
 BOOST_UT_LIBS = -L$(BOOST_LIB) -lboost_unit_test_framework
-LIBRARIES := $(GENIE_GENERATOR_LIBS) $(BOOST_UT_LIBS)  $(LIBRARIES) 
+LIBRARIES := $(GENIE_GENERATOR_LIBS)  $(LIBRARIES)  
 
 all: lwlyn_nieves_ut 
 
 lwlyn_nieves_ut: FORCE
-	$(CXX) $(CXXFLAGS) -c lwlyn_nieves_ut.cxx $(INCLUDES)
-	$(LD) $(LDFLAGS) lwlyn_nieves_ut.$(ObjSuf) $(LIBRARIES) -o lwlyn_nieves_ut 
+	$(CXX) $(CXXFLAGS) -c lwlyn_nieves_ut.cxx $(INCLUDES) 
+	$(LD) $(LDFLAGS) lwlyn_nieves_ut.$(ObjSuf) $(LIBRARIES) $(BOOST_UT_LIBS) -o lwlyn_nieves_ut 
 
 
 purge: FORCE
