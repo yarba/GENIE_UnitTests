@@ -12,6 +12,7 @@
 #include <iostream>
 
 // these includes below are common for lwlyn and nieves
+#include "Messenger/Messenger.h"
 #include "Interaction/Interaction.h"
 #include "PDG/PDGCodes.h"
 #include "PDG/PDGLibrary.h"
@@ -95,6 +96,10 @@ void lwlyn_ut()
    double xsec = lwlyn->XSec( &inter, kpst );
    BOOST_REQUIRE_NE( xsec, 0. );
    BOOST_CHECK_CLOSE( xsec, 9.08713e-12, tolerance_in_percent );
+   //
+   // JY: this one below will artificially emulate an error ^_^
+   //
+   // ---> BOOST_CHECK_CLOSE( xsec, 8.08713e-12, tolerance_in_percent );
 
    // ---> later ! double integral = lwlyn->Integral( &inter ); // should be 1.41266e-10
    
@@ -206,6 +211,12 @@ bool init_unit_test_suite( /* int argc, char *argv[] */ )
 int main( int argc, char *argv[] )
 {
 
+   // try to silence GENIE Messenger just a little bit...
+   //
+   Messenger::Instance()->SetPrioritiesFromXmlFile("Messenger_whisper.xml");
+   
+   cout << "***** Starting Unit Tests *****" << endl;
+   
    return unit_test_main( &init_unit_test_suite, argc, argv );
 
 }
