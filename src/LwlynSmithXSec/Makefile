@@ -11,7 +11,12 @@ MAKEFILE = Makefile
 # Include machine specific flags and locations (inc. files & libs)
 include $(GENIE)/src/make/Make.include
 
-INCLUDES += -I$(BOOST_INC)
+#INCLUDES += -I$(BOOST_INC)
+ifdef CPP_INCLUDES
+INCLUDES := $(CPP_INCLUDES) -I$(BOOST_INC)
+else
+INCLUDES := $(INCLUDES) -I$(BOOST_INC)
+endif
 
 # Add extra libraries needed for these executables
 GENIE_GENERATOR_LIBS   = $(shell $(GENIE)/src/scripts/setup/genie-config --libs)
