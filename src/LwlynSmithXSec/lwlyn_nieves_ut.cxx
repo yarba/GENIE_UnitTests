@@ -12,11 +12,14 @@
 #include <iostream>
 
 // these includes below are common for lwlyn and nieves
-#include "Messenger/Messenger.h"
-#include "Interaction/Interaction.h"
-#include "PDG/PDGCodes.h"
-#include "PDG/PDGLibrary.h"
-#include "PDG/PDGUtils.h"
+#include "Framework/Messenger/Messenger.h"
+#include "Framework/Interaction/Interaction.h"
+// --> r2xx-series  #include "PDG/PDGCodes.h"
+// --> r2xx-series #include "PDG/PDGLibrary.h"
+// --> r2xx-series #include "PDG/PDGUtils.h"
+#include "Framework/ParticleData/PDGCodes.h"
+#include "Framework/ParticleData/PDGLibrary.h"
+#include "Framework/ParticleData/PDGUtils.h"
 
 using namespace std;
 using namespace genie;
@@ -45,7 +48,8 @@ using namespace boost::unit_test;
 double tolerance_in_percent = 0.001;
 
 // lwlyn-specific
-#include "LlewellynSmith/LwlynSmithQELCCPXSec.h"
+// ---> r2xx-series ---> #include "LlewellynSmith/LwlynSmithQELCCPXSec.h"
+#include "Physics/QuasiElastic/XSection/LwlynSmithQELCCPXSec.h"
 
 void lwlyn_ut()
 {
@@ -110,7 +114,8 @@ void lwlyn_ut()
 
 // nieves-specific
 
-#include "LlewellynSmith/NievesQELCCPXSec.h"
+// ---> r2xx-series ---> #include "LlewellynSmith/NievesQELCCPXSec.h"
+#include "Physics/QuasiElastic/XSection/NievesQELCCPXSec.h"
 
 void nieves_ut()
 {
