@@ -13,6 +13,7 @@
 
 // these includes below are common for lwlyn and nieves
 #include "Framework/Messenger/Messenger.h"
+#include "Framework/Utils/RunOpt.h"
 #include "Framework/Interaction/Interaction.h"
 // --> r2xx-series  #include "PDG/PDGCodes.h"
 // --> r2xx-series #include "PDG/PDGLibrary.h"
@@ -74,6 +75,7 @@ void lwlyn_ut()
    //       for a valid pointer with the BOOST_CHECK functionality 
    //
    LwlynSmithQELCCPXSec* lwlyn = new LwlynSmithQELCCPXSec();
+   
    BOOST_CHECK( lwlyn != 0 );
    
    // now configure it, for (future) XSec calculation
@@ -89,10 +91,11 @@ void lwlyn_ut()
 // #6  0x00007ffff693bf1a in genie::AlgConfigPool::~AlgConfigPool (this=0xad2c40, __in_chrg=<value optimized out>) at AlgConfigPool.cxx:96
 // #7  0x00007ffff6940d51 in genie::AlgConfigPool::Cleaner::~Cleaner (this=0x7ffff6b62b48, __in_chrg=<value optimized out>)
    //
-   lwlyn->Configure( "Default" );
-         
+   // lwlyn->Configure( "Default" );
+   lwlyn->Configure( "Dipole" );
+
    // bool   pvalid = lwlyn->ValidProcess( &inter );
-   // cout << " process valid: " << pvalid << endl; 
+   // cout << "LwlynSmithQELCCPXSec process valid: " << pvalid << endl; 
    BOOST_CHECK( lwlyn->ValidProcess( &inter ) );
 
    KinePhaseSpace_t kpst = kPSQ2fE; 
@@ -134,7 +137,8 @@ void nieves_ut()
    inter.KinePtr()->SetQ2( 2.0 ); // just to set something sensible...
    
    NievesQELCCPXSec niev;
-   niev.Configure("Default");
+   // niev.Configure("Default");
+   niev.Configure("Dipole");
 
    BOOST_CHECK( niev.ValidProcess( &inter ) );
 
@@ -219,6 +223,8 @@ int main( int argc, char *argv[] )
    // try to silence GENIE Messenger just a little bit...
    //
    Messenger::Instance()->SetPrioritiesFromXmlFile("Messenger_whisper.xml");
+   
+   RunOpt::Instance()->ReadFromCommandLine(0,0);
    
    cout << "***** Starting Unit Tests *****" << endl;
    
