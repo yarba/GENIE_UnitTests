@@ -103,7 +103,7 @@ void lwlyn_ut()
    double xsec = lwlyn->XSec( &inter, kpst );
    BOOST_REQUIRE_NE( xsec, 0. );
    // BOOST_CHECK_CLOSE( xsec, 9.08713e-12, tolerance_in_percent ); // as ov GENIE v2.x.x-series
-   BOOST_CHECK_CLOSE( xsec, 9.11142e-12, tolerance_in_percent ); // going towards GENIE v3-series
+   BOOST_CHECK_CLOSE( xsec, 9.11463e-12, tolerance_in_percent ); // going towards GENIE v3-series
    //
    // JY: this one below will artificially emulate an error ^_^
    //
@@ -148,7 +148,7 @@ void nieves_ut()
    double xsec = niev.XSec( &inter, kpst );
    BOOST_REQUIRE_NE( xsec, 0. );
    // BOOST_CHECK_CLOSE( xsec, 1.3332e-11, tolerance_in_percent ); // as of GENIE v2.x.x-series
-   BOOST_CHECK_CLOSE( xsec, 1.334846e-11, tolerance_in_percent ); // going towards GENIE v3-series
+   BOOST_CHECK_CLOSE( xsec, 1.335315e-11, tolerance_in_percent ); // going towards GENIE v3-series
    
    return;
 
