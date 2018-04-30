@@ -227,7 +227,12 @@ int main( int argc, char *argv[] )
    Messenger::Instance()->SetPrioritiesFromXmlFile("Messenger_whisper.xml");
    
    RunOpt::Instance()->ReadFromCommandLine(0,0);
-   
+   if ( ! RunOpt::Instance() -> Tune() ) {
+     LOG("gunittest", pFATAL) << " No TuneId in RunOption";
+     exit(-1);
+   }
+   RunOpt::Instance() -> Tune() -> Build() ;
+      
    cout << "***** Starting Unit Tests *****" << endl;
    
    return unit_test_main( &init_unit_test_suite, argc, argv );
