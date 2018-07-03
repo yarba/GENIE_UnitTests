@@ -124,6 +124,18 @@ void lwlyn_ut()
 void nieves_ut()
 {
 
+/*
+   // first of all, override the tune
+   int argc1 = 3;
+   char* argv1[] = { "fake_name", "--tune", "G18_10j_00_000" };
+   RunOpt::Instance()->ReadFromCommandLine(argc1,argv1);
+   if ( ! RunOpt::Instance() -> Tune() ) {
+     LOG("gunittest", pFATAL) << " No TuneId in RunOption";
+     exit(-1);
+   }
+   RunOpt::Instance() -> Tune() -> Build() ;
+*/   
+   
    // this part below is identical between lwlyn and niev !!!
    //
    InitialState istate( 6, 12, 14 );
@@ -139,7 +151,8 @@ void nieves_ut()
    
    NievesQELCCPXSec niev;
    // niev.Configure("Default");
-   niev.Configure("Dipole");
+   // niev.Configure("Dipole");
+   niev.Configure( "ZExp" );
 
    BOOST_CHECK( niev.ValidProcess( &inter ) );
 
@@ -210,7 +223,7 @@ bool init_unit_test_suite( /* int argc, char *argv[] */ )
 
    auto ts = BOOST_TEST_SUITE("lwlyn_ut");
    ts->add( BOOST_TEST_CASE( &lwlyn_ut ) );
-   ts->add( BOOST_TEST_CASE( &nieves_ut ) );
+   // ___ TMP disable ---> ts->add( BOOST_TEST_CASE( &nieves_ut ) );
    // ---> later !!! ts->add( BOOST_TEST_CASE( &dvalue1_ut ) );
    // ---> later !!! ts->add( BOOST_AUTO_TEST_CASE( &dvalue2_ut, *tolerance(0.0001) ) );
    framework::master_test_suite().add(ts);
