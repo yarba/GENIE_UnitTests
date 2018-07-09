@@ -1,5 +1,5 @@
-// --> #define BOOST_TEST_DYN_LINK
-// --> #define BOOST_TEST_MODULE Genie
+#define BOOST_TEST_DYN_LINK
+#define BOOST_TEST_MODULE Genie
 
 #define BOOST_TEST_ALTERNATIVE_INIT_API
 #undef BOOST_TEST_MAIN
@@ -161,7 +161,8 @@ void nieves_ut()
    double xsec = niev.XSec( &inter, kpst );
    BOOST_REQUIRE_NE( xsec, 0. );
    // BOOST_CHECK_CLOSE( xsec, 1.3332e-11, tolerance_in_percent ); // as of GENIE v2.x.x-series
-   BOOST_CHECK_CLOSE( xsec, 1.335315e-11, tolerance_in_percent ); // going towards GENIE v3-series
+   // BOOST_CHECK_CLOSE( xsec, 1.335315e-11, tolerance_in_percent ); // going towards GENIE v3-series... but this was for "Dipole"
+   BOOST_CHECK_CLOSE( xsec, 1.195979e-11, tolerance_in_percent ); // this is for "ZExp", towards v3-series
    
    return;
 
@@ -217,13 +218,18 @@ void dvalue2_ut()
 }
 */
 /* NOTE: no need to have input args - the way unit_test_main is called,
-         the args will get in (somehow) */
+         the args will get in (somehow) 
+	 ... oh, that's actually not "somehow", that's likely to be done via
+	 framework::master_test_suite().argc and/or  framework::master_test_suite().argv[] 
+	 ... but if one passes then in explicitly, it'll probably work as well
+	 */
 bool init_unit_test_suite( /* int argc, char *argv[] */ )
 {
 
    auto ts = BOOST_TEST_SUITE("lwlyn_ut");
    ts->add( BOOST_TEST_CASE( &lwlyn_ut ) );
-   // ___ TMP disable ---> ts->add( BOOST_TEST_CASE( &nieves_ut ) );
+   ts->add( BOOST_TEST_CASE( &nieves_ut ) );
+   //
    // ---> later !!! ts->add( BOOST_TEST_CASE( &dvalue1_ut ) );
    // ---> later !!! ts->add( BOOST_AUTO_TEST_CASE( &dvalue2_ut, *tolerance(0.0001) ) );
    framework::master_test_suite().add(ts);

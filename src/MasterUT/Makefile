@@ -1,7 +1,7 @@
 #
-# GENIE Makefile 
+# GENIE-UT Makefile 
 #
-# Author: Marco Roda, Liverpool 
+# Author: Julia Yarba, Fermilab 
 #
 
 SHELL = /bin/sh
@@ -25,14 +25,16 @@ LIBRARIES := $(GENIE_GENERATOR_LIBS)  $(LIBRARIES)
 
 UT_SRC := $(wildcard *.cxx)
 UT_OBJ  = $(addsuffix .$(ObjSuf), $(basename $(UT_SRC))) 
+EXTRA_SRC = $(wildcard ../XSecUT/*.cxx ../ReWeiUT/*.cxx)
+EXTRA_OBJ = $(addsuffix .$(ObjSuf), $(basename $(EXTRA_SRC)))
 
-all: lwlyn_nieves_ut 
+all: master_ut 
 
-lwlyn_nieves_ut: FORCE
+master_ut: FORCE
 	# $(CXX) $(CXXFLAGS) -c lwlyn_nieves_ut.cxx $(INCLUDES) 
 	# $(LD) $(LDFLAGS) lwlyn_nieves_ut.$(ObjSuf) $(LIBRARIES) $(BOOST_UT_LIBS) -o lwlyn_nieves_ut 
 	$(CXX) $(CXXFLAGS) -c $(UT_SRC) $(INCLUDES) 
-	$(LD) $(LDFLAGS) $(UT_OBJ) $(LIBRARIES) $(BOOST_UT_LIBS) -o lwlyn_nieves_ut 
+	$(LD) $(LDFLAGS) $(UT_OBJ) $(EXTRA_OBJ) $(LIBRARIES) $(BOOST_UT_LIBS) -o master_ut 
 
 
 purge: FORCE
@@ -40,7 +42,7 @@ purge: FORCE
 
 clean: FORCE
 	$(RM) *.o *~ core 
-	$(RM) lwlyn_nieves_ut
+	$(RM) master_ut
 
 
 FORCE:
