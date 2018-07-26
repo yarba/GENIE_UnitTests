@@ -37,6 +37,9 @@ operating procedures, are tested to determine whether they perform as exopected.
 
 The most traditional unit test exercises the lowest level componests, e.g. public methods of 
 a particular class in the simplest application.
+E.g. the simplest and perhaps the most classical example is to instantiate an object by calling 
+its constructor, then call one or several public methods and ensure their perform as expected,
+via comparing against well defined metric. 
 
 In the concept of GENIE the situation is somewhat more complex and in order to test features even 
 of a single class one often need several other classes/components to be involved.
