@@ -36,7 +36,7 @@ using namespace boost::unit_test;
 void rw_XSecCCQE_ut()
 {
 
-   double tolerance_in_percent = 0.1;
+   double tolerance_in_percent = 0.001;
 
    EventRecord* synth_event = new SynthEvent();
    
@@ -74,7 +74,7 @@ void rw_XSecCCQE_ut()
 
    // re-weighting business
    //
-   rew::GSyst_t param_to_tweak = genie::rew::kXSecTwkDial_MaCCQE ;
+   rew::GSyst_t param_to_tweak = rew::kXSecTwkDial_MaCCQE ;
 
    // Create a GReWeight object and add to it a set of weight calculators
    //
@@ -83,20 +83,19 @@ void rw_XSecCCQE_ut()
    // Add weight calculator for MaCCQE  
    // NOTE: will add other weight calculators later
    //
-   rw.AdoptWghtCalc( "xsec_ccqe", new genie::rew::GReWeightNuXSecCCQE() );
+   rw.AdoptWghtCalc( "xsec_ccqe", new rew::GReWeightNuXSecCCQE() );
 
    // Get GSystSet and include the (single) input systematic parameter
    // NOTE: in this case we use kXSecTwkDial_MaCCQE (for "MaCCQE")
    //
    rew::GSystSet& syst = rw.Systematics();
-   // syst.Init( genie::rew::kXSecTwkDial_MaCCQE );
    syst.Init( param_to_tweak );
    
    // By default GReWeightNuXSecCCQE is in `NormAndMaShape' mode 
    // where Ma affects the shape of dsigma/dQ2 and a different param affects the normalization
    // If the input is MaCCQE, switch the weight calculator to `Ma' mode
    //
-   rew::GReWeightNuXSecCCQE* rwccqe = dynamic_cast<genie::rew::GReWeightNuXSecCCQE*>( rw.WghtCalc("xsec_ccqe") );  
+   rew::GReWeightNuXSecCCQE* rwccqe = dynamic_cast<rew::GReWeightNuXSecCCQE*>( rw.WghtCalc("xsec_ccqe") );  
    rwccqe->SetMode( rew::GReWeightNuXSecCCQE::kModeMa );
       
    double twk = -0.5;
@@ -130,7 +129,7 @@ void rw_XSecCCQE_ut()
    
    // Create tmp XSec algorithm with the tweaked Ma 
    //
-   double MaChange = MaDefault + sigmin*twk;
+   double MaChange = MaDefault * ( 1. + sigmin*twk );
    //
    Registry r("Tmp_MaTwk",false);
    r.Set( MaPath, MaChange );
