@@ -36,7 +36,7 @@ using namespace boost::unit_test;
 void rw_XSecNCEL_ut()
 {
 
-   double tolerance_in_percent = 0.001;
+   // ---> LATER ---> double tolerance_in_percent = 0.001;
 
    EventRecord* synth_event = new SynthEvent();
 
@@ -53,14 +53,14 @@ void rw_XSecNCEL_ut()
    Algorithm* alg_def = (Algorithm*)(algf->GetAlgorithm(id)); // ugly trick - cast away const
    XSecAlgorithmI* XSecModelDef = dynamic_cast<XSecAlgorithmI*>(alg_def);
    
-   // BOOST_CHECK( XSecModelDef != 0 );
-   // BOOST_CHECK( XSecModelDef->ValidProcess( synth_event->Summary() ) );
+   BOOST_CHECK( XSecModelDef != 0 );
+   BOOST_CHECK( XSecModelDef->ValidProcess( synth_event->Summary() ) );
 
    // OK, now that the XSec calculator is setup, calculate the diff.xsec for the NCEL process
    //
    double xsec_diff = XSecModelDef->XSec( synth_event->Summary(), kPSQ2fE );
    
-   // BOOST_REQUIRE_NE( xsec_diff, 0. );
+   BOOST_REQUIRE_NE( xsec_diff, 0. );
       
    //
    // Setup XSec in the "synthetic" event
@@ -88,8 +88,9 @@ void rw_XSecNCEL_ut()
    double twk = -0.5;
    syst.Set( param_to_tweak, twk );
    rw.Reconfigure();
-   double wt = rw.CalcWeight(*synth_event);
+   // ---> LATER ---> double wt = rw.CalcWeight(*synth_event);
 
+/* Resume later when we figure out the path to MaNCEL, etc.
    // Now mess up with algoritms, (re)configs, etc.
 
    // One should do via AlgorithmFactory;
@@ -107,7 +108,7 @@ void rw_XSecNCEL_ut()
    //
    // string MaPath = "FormFactorsAlg/AxialFormFactorModel/QEL-Ma";
    // double MaDefault = (XSecModelTwk->GetConfig()).GetDouble(MaPath);
-
+*/
    return;
 
 }

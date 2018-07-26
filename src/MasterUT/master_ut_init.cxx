@@ -3,11 +3,9 @@
 #include <boost/test/framework.hpp>
 #include <boost/test/unit_test_suite.hpp>
 
-using namespace boost::unit_test;
+#include "ExternalFunctions.h"
 
-extern void lwlyn_ut();
-extern void nieves_ut();
-extern void rw_XSecCCQE_ut();
+using namespace boost::unit_test;
 
 /* NOTE: no need to have input args - the way unit_test_main is called,
          the args will get in (somehow) 
@@ -25,6 +23,7 @@ bool init_unit_test_suite( /* int argc, char *argv[] */ )
       
    auto ts2 = BOOST_TEST_SUITE("ReWei");
    ts2->add( BOOST_TEST_CASE( &rw_XSecCCQE_ut ) );
+   ts2->add( BOOST_TEST_CASE( &rw_XSecNCEL_ut ) );
 
    // add other tests suites here...
    
