@@ -36,9 +36,13 @@ using namespace boost::unit_test;
 void rw_XSecNCEL_ut()
 {
 
-   // ---> LATER ---> double tolerance_in_percent = 0.001;
+   double tolerance_in_percent = 0.001;
 
    EventRecord* synth_event = new SynthEvent();
+   
+   // reset ProcessInfo (D=QEL+CC)
+   //
+   synth_event->Summary()->SetProcInfo( ProcessInfo( kScQuasiElastic, kIntWeakNC ) );
 
    // now mess up with algoritm,s configs, etc.
    //
@@ -69,12 +73,23 @@ void rw_XSecNCEL_ut()
 
    // re-weighting business
    //
-   rew::GSyst_t param_to_tweak = rew::kXSecTwkDial_MaNCEL ;
-
    // Create a GReWeight object and add to it a set of weight calculators
    //
    rew::GReWeight rw;
    
+   // tweak in the units of sigma
+   //
+   double twk = -0.5;
+   
+   // Sigma's (-/+) can be extracted from GSystUncertainty
+   //
+   rew::GSystUncertainty* syser = rew::GSystUncertainty::Instance();
+
+   // Mass
+   //
+   rew::GSyst_t param_to_tweak = rew::kXSecTwkDial_MaNCEL ;
+   double sigmin_ma = syser->OneSigmaErr( param_to_tweak, -1 );
+  
    // Add weight calculator for MaNCEL & EtaNCEL  
    // NOTE: will add other weight calculators later
    //
@@ -83,14 +98,25 @@ void rw_XSecNCEL_ut()
    // Get GSystSet and include the (single) input systematic parameter
    //
    rew::GSystSet& syst = rw.Systematics();
-   syst.Init( param_to_tweak );
 
-   double twk = -0.5;
+   syst.Init( param_to_tweak );
    syst.Set( param_to_tweak, twk );
    rw.Reconfigure();
-   // ---> LATER ---> double wt = rw.CalcWeight(*synth_event);
+   double wt_ma = rw.CalcWeight(*synth_event);
+   
+   // restore Ma in the RW module
+   //
+   syst.Set( param_to_tweak, 0. );
 
-/* Resume later when we figure out the path to MaNCEL, etc.
+   // same for Eta
+   //
+   param_to_tweak = rew::kXSecTwkDial_EtaNCEL;
+   double sigmin_eta = syser->OneSigmaErr( param_to_tweak, -1 );   
+   syst.Init( param_to_tweak );
+   syst.Set( param_to_tweak, twk );
+   rw.Reconfigure();
+   double wt_eta = rw.CalcWeight(*synth_event);
+
    // Now mess up with algoritms, (re)configs, etc.
 
    // One should do via AlgorithmFactory;
@@ -106,9 +132,60 @@ void rw_XSecNCEL_ut()
    //    double MaDefault = gpl->GetDouble(MaPath);
    // says that there's no such key in registry
    //
-   // string MaPath = "FormFactorsAlg/AxialFormFactorModel/QEL-Ma";
-   // double MaDefault = (XSecModelTwk->GetConfig()).GetDouble(MaPath);
-*/
+   string MaPath = "QEL-Ma";
+   double MaDefault = (XSecModelTwk->GetConfig()).GetDouble(MaPath);
+   string EtaPath = "EL-Axial-Eta";
+   double EtaDefault = (XSecModelTwk->GetConfig()).GetDouble(EtaPath);
+
+   // Create tmp XSec algorithm with the tweaked Ma & Eta
+   //
+   double MaChange = MaDefault * ( 1. + sigmin_ma*twk );
+   double EtaChange = EtaDefault * (1. + sigmin_eta*twk );
+   //
+   Registry r("Tmp_MaTwk",false);
+   r.Set( MaPath, MaChange );
+   XSecModelTwk->Configure(r);
+
+   // For some (strange) reason one must repeat these 2 procedures below,
+   // even if it was done when synth_event was initially composed, 
+   // right before XSec was calculated with the "decault" component 
+   //
+   synth_event->Summary()->KinePtr()->UseSelectedKinematics();
+   synth_event->Summary()->SetBit(kIAssumeFreeNucleon);
+   //
+   double xsec_diff_twk = XSecModelTwk->XSec( synth_event->Summary(), synth_event->DiffXSecVars() );
+
+   BOOST_REQUIRE_NE( xsec_diff_twk, 0. );
+   
+   // Scale original XSecDiff with the weight calculated by the RW
+   // and compared with the one calculated by the "tweaked" one
+   //
+   double xsec_diff_scaled = wt_ma*synth_event->DiffXSec();
+   //
+   double delta = fabs(xsec_diff_twk - xsec_diff_scaled) / synth_event->DiffXSec() ;
+   delta *= 100; // in percent
+   
+   BOOST_CHECK_CLOSE( xsec_diff_twk, xsec_diff_scaled, tolerance_in_percent );
+   
+   r.Set( MaPath, MaDefault ); // restore default axial Mass
+   r.Set( EtaPath, EtaChange );
+   XSecModelTwk->Configure(r);
+   
+   xsec_diff_twk = XSecModelTwk->XSec( synth_event->Summary(), synth_event->DiffXSecVars() );
+
+   BOOST_REQUIRE_NE( xsec_diff_twk, 0. );
+   
+   // Scale original XSecDiff with the weight calculated by the RW
+   // and compared with the one calculated by the "tweaked" one
+   //
+   xsec_diff_scaled = wt_eta*synth_event->DiffXSec();
+
+   //
+   delta = fabs(xsec_diff_twk - xsec_diff_scaled) / synth_event->DiffXSec() ;
+   delta *= 100; // in percent
+   
+   BOOST_CHECK_CLOSE( xsec_diff_twk, xsec_diff_scaled, tolerance_in_percent );
+
    return;
 
 }

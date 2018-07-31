@@ -20,6 +20,7 @@ bool init_unit_test_suite( /* int argc, char *argv[] */ )
    
    ts1->add( BOOST_TEST_CASE( &lwlyn_ut ) );
    ts1->add( BOOST_TEST_CASE( &nieves_ut ) );
+   ts1->add( BOOST_TEST_CASE( &singlekaon_ut ) );
       
    auto ts2 = BOOST_TEST_SUITE("ReWei");
    ts2->add( BOOST_TEST_CASE( &rw_XSecCCQE_ut ) );

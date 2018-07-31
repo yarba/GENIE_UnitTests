@@ -1,3 +1,4 @@
+/*
 #include <boost/test/unit_test.hpp>
 #include <boost/test/framework.hpp>
 #include <boost/test/unit_test_suite.hpp>
@@ -9,6 +10,9 @@
 #include "Framework/ParticleData/PDGCodes.h"
 #include "Framework/ParticleData/PDGLibrary.h"
 #include "Framework/ParticleData/PDGUtils.h"
+*/
+
+#include "CommonXSec.h"
 
 using namespace std;
 using namespace genie;
