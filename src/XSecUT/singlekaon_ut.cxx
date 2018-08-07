@@ -8,6 +8,12 @@ using namespace genie;
 // Specific to SingleKaon (SK)
 #include "Physics/Strange/XSection/AlamSimoAtharVacasSKPXSec2014.h"
 
+
+// WORK IN PROGRESS !!!
+// TEST IS INCOMPLETE !!!
+// AS OF Aug. 8, 2018, IT PRODUCES A STRANGELY LARGE NUMBER,
+// SOMETHING ON THE ORDER OF 1.e+8 WHILE IT SHOULD HAVE BEEN 1.e-12 OR SO...
+
 void singlekaon_ut()
 {
 
