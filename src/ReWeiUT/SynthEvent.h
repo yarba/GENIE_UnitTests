@@ -17,3 +17,15 @@ class SynthEvent : public genie::EventRecord
       ~SynthEvent() {}
 
 };
+
+class SynthEventRES : public genie::EventRecord
+{
+
+   public :
+   
+      // ctor & dtor
+      //
+      SynthEventRES();
+      ~SynthEventRES() {}
+
+};

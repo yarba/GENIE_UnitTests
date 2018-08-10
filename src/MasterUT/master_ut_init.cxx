@@ -26,6 +26,8 @@ bool init_unit_test_suite( /* int argc, char *argv[] */ )
    auto ts2 = BOOST_TEST_SUITE("ReWei");
    ts2->add( BOOST_TEST_CASE( &rw_XSecCCQE_ut ) );
    ts2->add( BOOST_TEST_CASE( &rw_XSecNCEL_ut ) );
+   ts2->add( BOOST_TEST_CASE( &rw_XSecCCRES_ut ) );
+   ts2->add( BOOST_TEST_CASE( &rw_XSecNCRES_ut ) );
 
    // add other tests suites here...
    
