@@ -122,6 +122,10 @@ If you wish to check out public revision of GENIE (incl. trunk) with read-only a
 If you need read-write SVN access to the GENIE core code (password required), please do:
 
  svn co --username <you-user-rname> https://genie.hepforge.org/svn/generator/trunk <your-genie-area>
+ 
+If you need to work out of a specific development/feature branch, you should check out such branch:
+
+ svn co --username <your-user-name> https://genie.hepforge.org/svn/generator/devel/branches/<branch-name> <your-genie-area>
 
 To build GENIE:
 
@@ -188,7 +192,12 @@ To build the Unit Tests Suite, go to the GENIE_UnitTests/src directory and eecur
 To run the suite, do the following:
 
  MasterUT/master_ut
-
+ 
+WARNING !!! If you work out of a specific development/feature branch, you should make sure 
+that all the configuration files ( config/*.xml, config/G*/*.xml, etc.) are up-to-date.
+Otherwise you may experinece problems at run time.
+ 
+ 
 If you want to develop an additional unit test, you may be interested in the following:
 
 a) Using either XSecUT or ReWeiUT as an example/pattern, create a new subdirecory to populate 
