@@ -28,6 +28,7 @@ bool init_unit_test_suite( /* int argc, char *argv[] */ )
    ts2->add( BOOST_TEST_CASE( &rw_XSecNCEL_ut ) );
    ts2->add( BOOST_TEST_CASE( &rw_XSecCCRES_ut ) );
    ts2->add( BOOST_TEST_CASE( &rw_XSecNCRES_ut ) );
+   ts2->add( BOOST_TEST_CASE( &rw_XSecCOH_ut ) );
 
    // add other tests suites here...
    

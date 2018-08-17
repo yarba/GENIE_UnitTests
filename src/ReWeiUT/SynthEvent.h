@@ -29,3 +29,15 @@ class SynthEventRES : public genie::EventRecord
       ~SynthEventRES() {}
 
 };
+
+class SynthEventCOH : public genie::EventRecord
+{
+
+   public :
+   
+      // ctor & dtor
+      //
+      SynthEventCOH();
+      ~SynthEventCOH() {}
+
+};
