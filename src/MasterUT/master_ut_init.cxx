@@ -20,7 +20,7 @@ bool init_unit_test_suite( /* int argc, char *argv[] */ )
    
    ts1->add( BOOST_TEST_CASE( &lwlyn_ut ) );
    ts1->add( BOOST_TEST_CASE( &nieves_ut ) );
-   // ---> later !!! ts1->add( BOOST_TEST_CASE( &singlekaon_ut ) ); // produces strangely large number
+   ts1->add( BOOST_TEST_CASE( &singlekaon_ut ) ); // produces strangely large number
                                                                     // needs further understanding...
       
    auto ts2 = BOOST_TEST_SUITE("ReWei");
