@@ -15,8 +15,14 @@
 #include "Framework/EventGen/XSecAlgorithmI.h"
 #include "Framework/Registry/Registry.h"
 
-#include "Tools/ReWeight/GSystSet.h"
-#include "Tools/ReWeight/GSyst.h"
-#include "Tools/ReWeight/GReWeight.h"
-#include "Tools/ReWeight/GSystUncertainty.h"
+// migration
+//#include "Tools/ReWeight/GSystSet.h"
+//#include "Tools/ReWeight/GSyst.h"
+//#include "Tools/ReWeight/GReWeight.h"
+//#include "Tools/ReWeight/GSystUncertainty.h"
+//
+#include "RwFramework/GSystSet.h"
+#include "RwFramework/GSyst.h"
+#include "RwFramework/GSystUncertainty.h"
+#include "RwFramework/GReWeight.h"
 

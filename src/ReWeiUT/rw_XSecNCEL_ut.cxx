@@ -6,7 +6,8 @@
 //
 // This one right below is for MaNCEL & EtaNCEL (all in one)
 //
-#include "Tools/ReWeight/GReWeightNuXSecNCEL.h"
+// --> migration --> #include "Tools/ReWeight/GReWeightNuXSecNCEL.h"
+#include "RwCalculators/GReWeightNuXSecNCEL.h"
 
 #include "SynthEvent.h"
 

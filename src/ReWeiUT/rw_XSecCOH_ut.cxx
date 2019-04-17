@@ -1,7 +1,8 @@
 
 #include "CommonRwght.h"
 
-#include "Tools/ReWeight/GReWeightNuXSecCOH.h"
+// --> migration --> #include "Tools/ReWeight/GReWeightNuXSecCOH.h"
+#include "RwCalculators/GReWeightNuXSecCOH.h"
 
 #include "SynthEvent.h"
 

@@ -1,31 +1,6 @@
-# GENIE_UnitTests
+# UnitTests
 
 This is the initial collection of unit tests for the GENIE nu(bar)+A event generator.
-
-As of Feb.2018, we have two branches - master and genie_r2xx_series.
-
-==========
-
-Master is meant to work with the ongoing development towards GENIE v3-series, and is adapted
-to its code infrastructure that recently went through a major restructuring.
-
-It has been tested with the "e14:prof" installs of root v6_10_04d, lhapdf v5_9_1h, log4cpp v1_1_2,
-and boost v1_64_0.
-
-==========
-
-Branch genie_r2xx_series is supposed to be compatible with the R-2_X_Y series (e.g. 2_12_10
-release that is expected shortly).
-
-It has been tested with a "trunk" revision of genie/generator built with the against
-"e7:prof" installs of root v5_34_25a, lhapdf v5_9_1b, and log4cpp v1_1_1b.
-
-It also requires boost v1_57_0 (with the e7:prof qualifier as installed at FNAL).
-
-It should also build and run with boost v1_63_0a, e10:prof install (current at FNAL ?).
-However, in the reasonably near future we plan some updates to the application code 
-since boost 1.6x series has some additional attractive features and functionalities
-that were not available in version 1_57_0. 
 
 ==========
 
@@ -52,8 +27,9 @@ as fast as feasible.
 
 CODE INFRASTRUCTURE
 
-GENIE Unit Test Suite cirrently resides in
-https://github.com/yarba/GENIE_UnitTests
+GENIE Unit Test Suite cirrently resides in https://github.com/GENIE-MC/UnitTests
+
+NOTE: that this is public repository.
 
 In order to detect failures and/or deviation from expected and/or to report seccessfull completion, 
 GENIE Unit Test Suite is using features of  the boost unit testing framework: 
@@ -109,23 +85,23 @@ We assume building GENIE vs root v6-series (although building vs root5-series is
 external packages.
 
  source /cvmfs/fermilab.opensciencegrid.org/products/genie/bootstrap_genie_ups.sh  
- setup root v6_10_04d -q e14:nu:prof
- setup lhapdf v5_9_1h -q e14:prof
- setup log4cpp v1_1_2 -q e14:prof
-
+ setup root v6_12_06a -q e17:prof
+ setup lhapdf v5_9_1k -q e17:prof
+ setup log4cpp v1_1_3a -q e17:prof
  cd <your-work-area>
 
 If you wish to check out public revision of GENIE (incl. trunk) with read-only access, please do:
 
- svn co --quiet http://genie.hepforge.org/svn/generator/trunk <your-genie-area>
+ git clone git@github.com:GENIE-MC/Generator.git <your-genie-area>
 
-If you need read-write SVN access to the GENIE core code (password required), please do:
+NOTE-1: In some cases "git clone" as shown will NOT work properly (ssh specifics or whatever reason).
+As an alternative, one may try as follows:
+  git clone https://git@github.com/GENIE-MC/Generator.git <your-genie-area>
 
- svn co --username <you-user-rname> https://genie.hepforge.org/svn/generator/trunk <your-genie-area>
- 
-If you need to work out of a specific development/feature branch, you should check out such branch:
 
- svn co --username <your-user-name> https://genie.hepforge.org/svn/generator/devel/branches/<branch-name> <your-genie-area>
+NOTE-2: If you don't specify <your-genie-area>, the code will be checked out into (sub)directory Generator.
+
+NOTE-3: Due to migration from HepForge/SVN to GitHub, port of development/feature branches is still in progress.
 
 To build GENIE:
 
@@ -166,27 +142,60 @@ Extend LD_LIBRARY_PATH and PATH:
 
  LD_LIBRARY_PATH=$GENIE/lib:$LD_LIBRARY_PATH
  PATH=$GENIE/bin:$PATH
+ 
+ 
+Now you need to build Reweight package.
+
+BEAR IN MIND THAT STARTING OCT.2018 Tools/ReWeight PACKAGE HAS MOVED OUT OF GENIE (Generator)
+INTO ITS OWN REPOSITORY Reweight.
+
+ git clone git@github.com:GENIE-MC/Reweight.git <your-genie-RW-area>
+
+NOTE-4: As already mentioned earlier, in some cases "git clone" will NOT work as shon above.
+Alternative was is the following:
+  git clone https://git@github.com/GENIE-MC/Reweight.git <your-genie-RW-area>
+
+NOTE-5: If you don't specify <your-genie-RW-area>, the code will be checked out into (sub)directory Reweight.
 
 
-In order to build GENIE_UnitTests you'll also need boost packakge wichi is also centrally
+ cd <your-genie-RW-area>
+
+Setup mandatory GENIE_REWEIGHT environment variable :
+
+ GENIE_REWEIGHT=$PWD
+
+Build Reweight:
+
+  make
+  
+Extend LD_LIBRARY_PATH and PATH to include RW libraries and executables:
+
+ LD_LIBRARY_PATH=$GENIE_REWEIGHT/lib:$LD_LIBRARY_PATH
+ PATH=$GENIE_REWEIGHT/bin:$PATH
+
+
+In order to build GENIE_UnitTests you'll also need boost packakge wich is also centrally
 available on geniegpvm01:
 
- setup boost v1_64_0 -q e14:prof
-
+ setup boost v1_66_0a -q e17:prof
 
 Obtain GENIE Unit Tests Suite:
 The easiest way to get started is to clone the Suite from GitHub:
 
  cd <your-work-area>
- git clone https://github.com/yarba/GENIE_UnitTests.git
+ git clone  git@github.com:GENIE-MC/UnitTests.git
+ 
+NOTE-6: As already mentioned earlier, in some cases "git clone" will NOT work as shon above.
+Alternative was is the following:
+  git clone https://git@github.com/GENIE-MC/UnitTests.git 
 
-NOTE: in principle, for future development it may be more practical to fork Git GENIE_UnitTest
+NOTE-7: in principle, for future development it may be more practical to fork UnitTests
 repository, do all the development there, then initiate a Git pull request to have updates
 megred into the main branch.
 
 To build the Unit Tests Suite, go to the GENIE_UnitTests/src directory and eecure "make":
 
- cd GENIE_UnitTests/src
+ cd UnitTests/src
  make
 
 To run the suite, do the following:

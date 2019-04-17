@@ -6,7 +6,8 @@
 //
 // This one right below is for MaCCQE
 //
-#include "Tools/ReWeight/GReWeightNuXSecCCQE.h"
+// --> migration --> #include "Tools/ReWeight/GReWeightNuXSecCCQE.h"
+#include "RwCalculators/GReWeightNuXSecCCQE.h"
 
 #include "SynthEvent.h"
 

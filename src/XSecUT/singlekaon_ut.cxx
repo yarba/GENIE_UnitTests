@@ -69,8 +69,6 @@ void singlekaon_ut()
    //
    xsec *= ( 1. - inter.KinePtr()->GetKV(kKVSelctl) );
    
-   cout << "SK XSec = " << xsec << endl;
-
    BOOST_REQUIRE_NE( xsec, 0. );
    BOOST_CHECK_CLOSE( xsec, 6.9463227404016836e-14, tolerance_in_percent );
    
