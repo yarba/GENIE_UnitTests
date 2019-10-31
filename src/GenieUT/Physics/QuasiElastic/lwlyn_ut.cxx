@@ -1,6 +1,10 @@
 
 #include "CommonXSec.h"
 
+#ifdef PRINTOUT
+#include "UpdateBenchmark.h"
+#endif
+
 using namespace std;
 using namespace genie;
 using namespace boost::unit_test;
@@ -24,39 +28,17 @@ using namespace boost::unit_test;
    //
    // BOOST_CHECK_NE( lwlyn, NULL );
 
-
-// It'd make sense to declare it as global 
-// if there's a group of tests that "share" the same tolerance,
-// and they're all implemented in one source file
-//
-// double tolerance_in_percent = 0.001;
-
 // lwlyn-specific
 #include "Physics/QuasiElastic/XSection/LwlynSmithQELCCPXSec.h"
 
 void lwlyn_ut()
 {
       
-   double tolerance_in_percent = 0.001;
-  
-   // Carbon target nucleus + nu_mu projectile (probe)
+   // silence TransverseEnhancementFFModel messages
    //
-   InitialState istate( 6, 12, 14 );
-   
-   // make sure to set hit tgt nucleon to neutron with the nu_mu probe
-   // ... or to proton with nu_mu_bar probe
-   istate.TgtPtr()->SetHitNucPdg( 2112 );
-   
-   // kinematics
-   //
-   double Ev = 3; // in GeV
-   TLorentzVector nup4(0., 0., Ev, Ev); //px, py, pz, E
-   istate.SetProbeP4( nup4 );
-   //
-   ProcessInfo  procinfo( kScQuasiElastic, kIntWeakCC );
-   //          
-   Interaction inter( istate, procinfo );
-   inter.KinePtr()->SetQ2( 2.0 ); // just to set something sensible...
+   Messenger::Instance()->SetPriorityLevel( "TransverseEnhancementFFModel", pFATAL );
+
+   EventRecord* evt = new SynthEvent();
 
    // NOTE: it can as well be a local object rather than a pointer
    //       it's done this way only to "test" for a valid pointer with 
@@ -68,7 +50,7 @@ void lwlyn_ut()
    
    // now configure it, for (future) XSec calculation
    //
-   // NOTE: Calling Configure(...) before an InitialState object exists 
+   // NOTE: Calling Configure(...) before exists an InitialState object (part of event record) 
    //       will results in a segfault at the very exit, with the the stack as shown below:
 // #0  0x0000000000df1ee0 in ?? ()
 // #1  0x00007ffff6db95be in genie::Messenger::Instance () at Messenger.cxx:95
@@ -81,18 +63,24 @@ void lwlyn_ut()
    //
    lwlyn->Configure( "Dipole" );
 
-   // bool   pvalid = lwlyn->ValidProcess( &inter );
-   // cout << "LwlynSmithQELCCPXSec process valid: " << pvalid << endl; 
-   BOOST_CHECK( lwlyn->ValidProcess( &inter ) );
+   BOOST_CHECK( lwlyn->ValidProcess( evt->Summary() ) );
 
    KinePhaseSpace_t kpst = kPSQ2fE; 
    
-   double xsec = lwlyn->XSec( &inter, kpst );
+   double xsec = lwlyn->XSec( evt->Summary(), kpst );
    
    BOOST_REQUIRE_NE( xsec, 0. );
    
-   // BOOST_CHECK_CLOSE( xsec, 9.08713e-12, tolerance_in_percent ); // as ov GENIE v2.x.x-series
-   BOOST_CHECK_CLOSE( xsec, 9.11463e-12, tolerance_in_percent ); // going towards GENIE v3-series
+   BOOST_CHECK_CLOSE( xsec, qel_xsec::lwlyn::xsec_default, tolerance_in_percent ); 
+
+#ifdef PRINTOUT
+   std::ostringstream os;
+   os << xsec;
+   std::string s = "static const double xsec_default = " + os.str() + ";" ;
+   UpdateBenchmark::Instance()->Write( "namespace lwlyn {" );
+   UpdateBenchmark::Instance()->Write( s );
+   UpdateBenchmark::Instance()->Write( "} // end namespace lwlyn" );
+#endif
    
    //
    // JY: this one below will artificially emulate an error ^_^
@@ -100,6 +88,8 @@ void lwlyn_ut()
    // ---> BOOST_CHECK_CLOSE( xsec, 8.08713e-12, tolerance_in_percent );
 
    // ---> later ! double integral = lwlyn->Integral( &inter ); // should be 1.41266e-10
+   
+   delete evt;
    
    delete lwlyn;
    

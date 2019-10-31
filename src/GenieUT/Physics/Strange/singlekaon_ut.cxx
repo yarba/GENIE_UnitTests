@@ -10,9 +10,7 @@ using namespace genie;
 void singlekaon_ut()
 {
 
-   double tolerance_in_percent = 0.001;
-
-   // this part below is identical between lwlyn and niev !!!
+   // this part below is identical among lwlyn, nieves, and simglekaon !!!
    //
    InitialState istate( 6, 12, 14 );
    double Ev = 3; // in GeV

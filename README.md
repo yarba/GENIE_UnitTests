@@ -117,7 +117,6 @@ Configure GENIE build:
   --enable-test \
   --enable-numi \
   --enable-gsl \
-  --enable-rwght \
   --enable-lhapdf5 \
   --with-optimiz-level=O3 \
   --with-pythia6-lib=$PYTHIA6_LIBRARY \
@@ -151,7 +150,7 @@ INTO ITS OWN REPOSITORY Reweight.
 
  git clone git@github.com:GENIE-MC/Reweight.git <your-genie-RW-area>
 
-NOTE-4: As already mentioned earlier, in some cases "git clone" will NOT work as shon above.
+NOTE-4: As already mentioned earlier, in some cases "git clone" will NOT work as shown above.
 Alternative was is the following:
   git clone https://git@github.com/GENIE-MC/Reweight.git <your-genie-RW-area>
 
@@ -193,7 +192,7 @@ NOTE-7: in principle, for future development it may be more practical to fork Un
 repository, do all the development there, then initiate a Git pull request to have updates
 megred into the main branch.
 
-To build the Unit Tests Suite, go to the GENIE_UnitTests/src directory and eecure "make":
+To build the Unit Tests Suite, go to the GENIE_UnitTests/src directory and execute "make":
 
  cd UnitTests/src
  make
@@ -209,46 +208,51 @@ Otherwise you may experinece problems at run time.
  
 If you want to develop an additional unit test, you may be interested in the following:
 
-a) Using either XSecUT or ReWeiUT as an example/pattern, create a new subdirecory to populate 
+a) Using either GenieUT/Physics/QuasiElastic or ReWeiUT as an example/pattern, create a new subdirecory to populate 
 with the new applications
-NOTE: The XSecUT applications are a bit simpler than the ReWeiUT ones are. 
-E.g. src/XSecUT/lwlyn_ut.cc or src/XSecdUT/nieves_ut.cxx applications maybe easier examples to follow. 
+NOTE: The GenieUT/Physics/QuasiElastic applications are a bit simpler than the ReWeiUT ones are. 
+E.g. src/GenieUT/Physics/QuasiElastic/lwlyn_ut.cc or src/GenieUT/Physics/QuasiElastic/nieves_ut.cxx applications 
+maybe easier examples to follow. 
 But this may depend on the use case.
 
-b) E.g. src/XSecUT/Makefile can serve an an example of a makefile.
+b) E.g. src/GenieUT/Physics/QuasiElastic/Makefile can serve an an example of a makefile.
 
 c) Once the application is ready, it can be added to the list of all in src/MasterUT/ExternalFunctions.h
 and included in one or another "BOOST_TEST_SUITE", as shown in src/MasterUT/master_init_ut.cxx
 
 MISC: WALK-THROUGH UNIT TEST FOR THE NIEVES XSEC MODEL
 
-The source code for the Nieves XSec unit test is src/XSecUT/nieves_ut.cxx
+The source code for the Nieves XSec unit test is src/GenieUT/Physics/QuasiElastic/lwlyn_ut.cxx
 
-All necessary (common) header, except NievesQELCCPXSec.h one, are encapsulated in src/XSecUT/CommonXSec.h
+All necessary (common) header, except LwlynSmithQELCCPXSec.h one, are encapsulated in 
+src/GenieUT/Physics/QuasiElastic/CommonXSec.h
 
 First of all, one needs to setup the test.
 
-In order to calculate an XSec, one needs to define an Interaction object, which in turn requires 
-an InitialState and a ProcessInfo. All those are setup on lines 18 through 30.
+In order to calculate an XSec, an Interaction object is needed, which in turn requires 
+an InitialState and a ProcessInfo.
+Although this can be done explicitly, in this application this is implemented within SynthEvent class 
+(see src/SynthEvent). The SynthEvent object(s) can be re-used in a number of other unit tests.
+In the nieves_ut.cxx, the SynthEvent is instanciated at line 37.
 
-Next, the NievesQELCCPXSec object is instanciated on line 32 and properly configured on line 35.
+Next, the LwlynSmithQELCCPXSec object is instanciated on line 43 and properly configured on line 60.
 
-Lines 37 through 46 are actually the "beef" of the unit test.
+Lines 62 through 70 are actually the "beef" of the unit test.
 
-Line 37 shows
-a) how a public method ValidProcess of the NievesQELCCPXSec object is called
+Line 62 shows
+a) how a public method ValidProcess of the LwlynSmithQELCCPXSec object is called
 b) how boost's BOOST_CHECK functionality is used to ensure the method returns the right value
 
-Line 41 illustrates how the XSec public mathod of the NievesQELCCPXSec object is called to calculate
+Line 66 illustrates how the XSec public mathod of the LwlynSmithQELCCPXSec object is called to calculate
 differential cross section for a given Interaction and phase space.
 
-Line 43 shows how boost's functionality is used to make sure the calculated cross sections is non-zero.
+Line 68 shows how boost's functionality is used to make sure the calculated cross sections is non-zero.
 
-Line 46 shows how to use boost's functionality to compare the calculated cross section vs predefined
+Line 70 shows how to use boost's functionality to compare the calculated cross section vs predefined
 value and to make sure that the difference between the two does not exceed 0.001% (the tolarnce itself
 is define at the very beginning of the code, on line 14).
 
-Since this unit test uses only local objects, and no pointers, no "tear down" is needed.
+Lines 88 and 90 show the "tear down", i.e. deletion of the created objects.
 
 
  

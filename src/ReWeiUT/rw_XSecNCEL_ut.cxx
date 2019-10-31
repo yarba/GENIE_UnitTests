@@ -18,8 +18,6 @@ using namespace boost::unit_test;
 void rw_XSecNCEL_ut()
 {
 
-   double tolerance_in_percent = 0.001;
-
    EventRecord* synth_event = new SynthEvent();
    
    // reset ProcessInfo (D=QEL+CC)

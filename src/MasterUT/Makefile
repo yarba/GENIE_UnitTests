@@ -13,9 +13,9 @@ include $(GENIE)/src/make/Make.include
 
 #INCLUDES += -I$(BOOST_INC)
 ifdef CPP_INCLUDES
-INCLUDES := $(CPP_INCLUDES) -I$(BOOST_INC)
+INCLUDES := $(CPP_INCLUDES) -I$(BOOST_INC) -I../Common -I../SynthEvent
 else
-INCLUDES := $(INCLUDES) -I$(BOOST_INC)
+INCLUDES := $(INCLUDES) -I$(BOOST_INC) -I../Common -I../SynthEvent
 endif
 
 # Add extra libraries needed for these executables
@@ -26,14 +26,13 @@ LIBRARIES := $(GENIE_GENERATOR_LIBS) $(GENIE_RW_LIBS) $(LIBRARIES)
 
 UT_SRC := $(wildcard *.cxx)
 UT_OBJ  = $(addsuffix .$(ObjSuf), $(basename $(UT_SRC))) 
-EXTRA_SRC = $(wildcard ../XSecUT/*.cxx ../ReWeiUT/*.cxx)
+# --> old structure of dirs --> EXTRA_SRC = $(shell ls ../*UT/*.cxx | grep -v Master) $(wildcard ../SynthEvent/*.cxx) 
+EXTRA_SRC = $(shell ls ../GenieUT/*/*/*.cxx) $(wildcard ../ReWeiUT/*.cxx) $(wildcard ../SynthEvent/*.cxx) 
 EXTRA_OBJ = $(addsuffix .$(ObjSuf), $(basename $(EXTRA_SRC)))
 
 all: master_ut 
 
 master_ut: FORCE
-	# $(CXX) $(CXXFLAGS) -c lwlyn_nieves_ut.cxx $(INCLUDES) 
-	# $(LD) $(LDFLAGS) lwlyn_nieves_ut.$(ObjSuf) $(LIBRARIES) $(BOOST_UT_LIBS) -o lwlyn_nieves_ut 
 	$(CXX) $(CXXFLAGS) -c $(UT_SRC) $(INCLUDES) 
 	$(LD) $(LDFLAGS) $(UT_OBJ) $(EXTRA_OBJ) $(LIBRARIES) $(BOOST_UT_LIBS) -o master_ut 
 

@@ -56,8 +56,6 @@ int main( void )
    
    AlgConfigPool* conf_pool = AlgConfigPool::Instance();
 
-// --->   return 0;
-   
    Registry* gpl  = conf_pool->GlobalParameterList();
    
    gpl->Print( cout );
@@ -80,7 +78,7 @@ int main( void )
    // NOTE: Basically, RgAlg is just a "pair" of strings (but not an std::pair),
    // i.e. algorithm's name (e.g. Lwlyn...) and configuration (e.g. Dipole)
    //
-   RgAlg xsec_alg = gpl->GetAlg("XSecModel@genie::EventGenerator/COH-CC");
+   RgAlg xsec_alg = gpl->GetAlg("XSecModel@genie::EventGenerator/COH-CC-PION");
    
    cout << " RgAlg = " << xsec_alg << endl;
   
@@ -91,8 +89,20 @@ int main( void )
    Algorithm* the_alg = (Algorithm*)(algf->GetAlgorithm(id)); // ugly trick - cast away const
    XSecAlgorithmI* TheXSecModel = dynamic_cast<XSecAlgorithmI*>(the_alg);
    
+   // get model's config
+   //
    const Registry& rconf = TheXSecModel->GetConfig();
    rconf.Print(cout);
+
+   // get config of a sub-algorithm XSec-Integrator, if any
+   //
+   // const Registry& rg_xsec_int = (TheXSecModel->SubAlg("XSec-Integrator"))->GetConfig();
+   const Algorithm* xsec_int = TheXSecModel->SubAlg("XSec-Integrator");
+   if ( xsec_int )
+   {
+      const Registry& rconf_xsec_int = xsec_int->GetConfig();
+      rconf_xsec_int.Print(cout);  
+   }
    
    string MaPath = "COH-Ma";  // alt.: COH-Ro
    double Ma = (TheXSecModel->GetConfig()).GetDouble(MaPath);

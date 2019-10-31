@@ -165,7 +165,8 @@ SynthEventCOH::SynthEventCOH()
    
    // NOTE: do NOT set hit nucleon as XSecCOH will bail on it ---> init_state.TgtPtr()->SetHitNucPdg( 2112 );
       
-   this->AttachSummary( new Interaction( init_state, ProcessInfo( kScCoherent, kIntWeakCC ) ) );
+   //this->AttachSummary( new Interaction( init_state, ProcessInfo( kScCoherent, kIntWeakCC ) ) );
+   this->AttachSummary( new Interaction( init_state, ProcessInfo( kScCoherentProduction, kIntWeakCC ) ) );
    this->Summary()->KinePtr()->Setx( 0.044, true );
    this->Summary()->KinePtr()->Sety( 0.744, true );
    this->Summary()->KinePtr()->SetQ2( 0.186, true );

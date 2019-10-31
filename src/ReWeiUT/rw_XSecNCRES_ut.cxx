@@ -12,8 +12,6 @@ using namespace boost::unit_test;
 void rw_XSecNCRES_ut()
 {
 
-   double tolerance_in_percent = 0.001;
-
    EventRecord* synth_event = new SynthEventRES();
 
    // (re)set scattering type

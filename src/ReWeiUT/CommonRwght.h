@@ -1,6 +1,8 @@
-#include <boost/test/unit_test.hpp>
-#include <boost/test/framework.hpp>
-#include <boost/test/unit_test_suite.hpp>
+#ifndef COMMON_RW_H
+#define COMMON_RW_H
+
+#include "BoostUtils.h"
+#include "BenchmarkCriteria.h"
 
 #include "Framework/Messenger/Messenger.h"
 #include "Framework/Utils/RunOpt.h"
@@ -26,3 +28,4 @@
 #include "RwFramework/GSystUncertainty.h"
 #include "RwFramework/GReWeight.h"
 
+#endif

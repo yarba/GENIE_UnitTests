@@ -11,7 +11,7 @@ MAKEFILE = Makefile
 # Include machine specific flags and locations (inc. files & libs)
 include $(GENIE)/src/make/Make.include
 
-MODULES := XSecUT ReWeiUT MasterUT
+MODULES := SynthEvent GenieUT/Physics/QuasiElastic GenieUT/Physics/Coherent GenieUT/Physics/Strange ReWeiUT MasterUT 
 
 .PHONY: all $(MODULES)
 

@@ -13,9 +13,9 @@ include $(GENIE_REWEIGHT)/src/make/Make.include
 
 #INCLUDES += -I$(BOOST_INC)
 ifdef CPP_INCLUDES
-INCLUDES := $(CPP_INCLUDES) -I$(BOOST_INC)
+INCLUDES := $(CPP_INCLUDES) -I$(BOOST_INC) -I../Common -I../SynthEvent
 else
-INCLUDES := $(INCLUDES) -I$(BOOST_INC)
+INCLUDES := $(INCLUDES) -I$(BOOST_INC) -I../Common -I../SynthEvent
 endif
 
 RW_SOURCES := $(wildcard *.cxx)

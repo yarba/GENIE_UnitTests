@@ -18,8 +18,6 @@ using namespace boost::unit_test;
 void rw_XSecCCQE_ut()
 {
 
-   double tolerance_in_percent = 0.001;
-
    EventRecord* synth_event = new SynthEvent();
    
    // now mess up with algoritm,s configs, etc.

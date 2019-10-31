@@ -1,9 +1,8 @@
 #ifndef COMMON_XSEC_H
 #define COMMON_XSEC_H
 
-#include <boost/test/unit_test.hpp>
-#include <boost/test/framework.hpp>
-#include <boost/test/unit_test_suite.hpp>
+#include "BoostUtils.h"
+#include "BenchmarkCriteria.h"
 
 #include <iostream>
 
@@ -12,5 +11,7 @@
 #include "Framework/ParticleData/PDGCodes.h"
 #include "Framework/ParticleData/PDGLibrary.h"
 #include "Framework/ParticleData/PDGUtils.h"
+
+#include "SynthEvent.h"
 
 #endif

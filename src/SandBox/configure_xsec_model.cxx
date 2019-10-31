@@ -97,50 +97,7 @@ int main( void )
    cout << " Modified RS XSec(modi) = " << xsec_modi << endl;   
    
    cout << " ENJOY THE REST OF YOUR DAY !!!" << endl;
-   
-/* 
-   NOW, another example that will work BUT !!! ONLY !!! if you load up the tune into RunOpt.
-   
-   If not, it'll chock on trying to configure the XSec Integrator algorithm genie::COHXSec/Default,
-   and will spit the following diagnostics:
-   // 1553115532 ERROR AlgConfigPool : [s] <LoadRegistries (289)> : The XML doc doesn't exist! (filename : ModelConfiguration.xml)
-   // 1553115532 ERROR AlgConfigPool : [n] <AlgConfigPool.cxx::AlgConfigPool (70)> : Could not load XML config file
-   // 1553115532 WARN Algorithm : [n] <Algorithm.cxx::FindConfig (165)> : No Configuration available for genie::COHXSec/Default at the ConfigPool
-   // 1553115532 WARN Algorithm : [n] <Algorithm.cxx::FindConfig (224)> : No Tunable parameter set available at the ConfigPool
-   // 1553115532 FATAL Algorithm : [n] </genie/app/yarba_j/GENIE-work/try-github/master_mar19_2019_root6.12.06a_dbg/Generator/src/Framework/Algorithm/Algorithm.icc::GetParam (102)> : 
-   // *** Key: COH-t-max does not exist in pools from algorithm : genie::COHXSec/Default   
-   
-   The issue here is that most of the configuration mechanisms try to local XML configurations via XmlParserUtils,
-   and those in turn rely on RunOpt.
-
-   Registry conf_custom = Registry( "RSXSecConfig", false ); // 2nd arg set to false means that it's NOT read-only
-   conf_custom.InhibitItemLocks();
-   
-   string MaPath = "COH-Ma";  // alt.: COH-Ro
-   conf_custom.Set( MaPath, 1. );
-   
-   string RoPath = "COH-Ro";
-   conf_custom.Set( RoPath, 1. );
-   
-   string ReImPath = "COH-ReImAmpl";
-   conf_custom.Set( ReImPath, 0.3 );
-   
-   string ModPCACPath = "COH-UseModifiedPCAC";
-   conf_custom.Set( ModPCACPath, true );
-   
-   string IntegratorPath = "XSec-Integrator";
-   // ---> INCORRECT; it's not a string but an RgAlg !!! ---> rconf.Set( IntegratorPath, "genie::COHXSec/Default"  );
-   RgAlg int_xsec( "genie::COHXSec", "Default" );
-   conf_custom.Set( IntegratorPath, int_xsec );
-
-   ReinSehgalCOHPiPXSec* rs_xsec_custom = new ReinSehgalCOHPiPXSec();
-   rs_xsec_custom->Configure( conf_custom );
       
-   double xsec_custom = rs_xsec_custom->XSec( synth_event->Summary(), kPSxyfE );
-   cout << " RS XSec(custom) = " << xsec_custom << endl;
-
-*/   
-   
    return 0;
    
 }

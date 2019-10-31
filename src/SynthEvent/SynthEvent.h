@@ -1,5 +1,5 @@
-// #include "Framework/Messenger/Messenger.h"
-// #include "Framework/Utils/RunOpt.h"
+#ifndef SYNTH_EVENT_H
+#define SYNTH_EVENT_H
 
 #include "Framework/EventGen/EventRecord.h"
 
@@ -41,3 +41,5 @@ class SynthEventCOH : public genie::EventRecord
       ~SynthEventCOH() {}
 
 };
+
+#endif

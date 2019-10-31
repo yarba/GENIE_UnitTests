@@ -15,9 +15,9 @@ LIBNAME = libXSecUT
 
 #INCLUDES += -I$(BOOST_INC)
 ifdef CPP_INCLUDES
-INCLUDES := $(CPP_INCLUDES) -I$(BOOST_INC)
+INCLUDES := $(CPP_INCLUDES) -I$(BOOST_INC) -I../Common -I../SynthEvent 
 else
-INCLUDES := $(INCLUDES) -I$(BOOST_INC)
+INCLUDES := $(INCLUDES) -I$(BOOST_INC) -I../Common -I../SynthEvent 
 endif
 
 # Add extra libraries needed for these executables
